@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.16.1",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.0",
+    "mysql2": "^3.14.1",
+    "uuid": "^11.1.0"
+  }
+}
