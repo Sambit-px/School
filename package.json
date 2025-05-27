@@ -1,4 +1,5 @@
 {
+  "type": "commonjs",
   "dependencies": {
     "@mapbox/mapbox-sdk": "^0.16.1",
     "dotenv": "^16.5.0",
