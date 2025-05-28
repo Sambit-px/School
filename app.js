@@ -103,7 +103,7 @@ app.post("/addSchool", async (req, res, next) => {
 });
 
 // GET: Search 
-app.get("/school/search", async (req, res, next) => {
+app.get("/school/listSchools", async (req, res, next) => {
     const { location } = req.query;
     if (!location) return next(new ExpressError(400, "Location is required."));
 
