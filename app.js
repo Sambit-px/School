@@ -118,7 +118,8 @@ app.get("/school/search", async (req, res, next) => {
             return next(new ExpressError(400, "No geocoding results found."));
         }
 
-        const [lng, lat] = response.body.features[0].geometry.coordinates;
+        const lng = response.body.features[0].geometry.coordinates[0];
+        const lat = response.body.features[0].geometry.coordinates[1];
 
         const [schools] = await connection.query("SELECT id, name, address, latitude, longitude FROM school");
 
