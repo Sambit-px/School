@@ -11,10 +11,10 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const app = express();
 const geocodingClient = mbxGeocoding({ accessToken: process.env.MAP_TOKEN });
 
-// Read SSL certificate
+
 const sslCert = fs.readFileSync(process.env.DB_SSL_CA).toString();
 
-// MySQL connection connection config
+
 const connection = mysql.createConnection({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -30,13 +30,13 @@ const connection = mysql.createConnection({
     queueLimit: 0,
 }).promise();
 
-// View engine setup
+//for EJS in view
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Middleware
-app.use(express.urlencoded({ extended: true }));
+
+app.use(express.urlencoded({ extended: true })); //for POST route
 
 // Haversine distance function
 function haversine(lat1, lon1, lat2, lon2) {
@@ -55,9 +55,8 @@ function haversine(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
-// Routes
 
-// Home page: Show all schools
+// Home page
 app.get("/", async (req, res, next) => {
     try {
         const [schools] = await connection.query("SELECT id, name, address, latitude, longitude FROM school");
@@ -69,12 +68,12 @@ app.get("/", async (req, res, next) => {
 
 });
 
-// GET: Add school form
+// GET: New
 app.get("/addSchool", (req, res) => {
     res.render("new.ejs");
 });
 
-// POST: Add school using geocoding
+// POST: Add school
 app.post("/addSchool", async (req, res, next) => {
     const { name, street, city, state, country } = req.body;
     const fullAddress = `${street}, ${city}, ${state}, ${country}`;
@@ -103,7 +102,7 @@ app.post("/addSchool", async (req, res, next) => {
     }
 });
 
-// GET: Search schools nearest to a location
+// GET: Search 
 app.get("/school/search", async (req, res, next) => {
     const { location } = req.query;
     if (!location) return next(new ExpressError(400, "Location is required."));
@@ -137,15 +136,15 @@ app.get("/school/search", async (req, res, next) => {
     }
 });
 
-// Error handler
+
 app.use((err, req, res, next) => {
     const status = err.status || 500;
     const message = err.message || "Something went wrong";
     res.status(status).send(message);
 });
 
-// Start server
-const PORT = process.env.PORT || 8080;
+
+const PORT = 8080;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
